@@ -1,12 +1,12 @@
-from .core import Primitive, synchronized
+from .core import Core, synchronized
 from .promise import Promise
 from .dequeue import DEQueue
 from .task_queue import Task, TaskQueue
 
-class Gate(Primitive):
+class Gate(Core):
 
     def __init__(self, open=False):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.Queue = []
         self.Open = open
         

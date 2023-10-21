@@ -1,4 +1,4 @@
-from .core import PyThread, synchronized, Primitive, Timeout
+from .core import Robot, synchronized, Core, Timeout
 from .task_queue import Task, TaskQueue
 from .promise import Promise
 import time, uuid, traceback, random
@@ -64,10 +64,10 @@ class Job(object):
         except: pass
         self.Scheduler = None
 
-class JobThread(PyThread):
+class JobThread(Robot):
     
     def __init__(self, scheduler, job):
-        PyThread.__init__(self, name=f"Scheduler({scheduler})/job{job.ID}", daemon=True)
+        Robot.__init__(self, name=f"Scheduler({scheduler})/job{job.ID}", daemon=True)
         self.Scheduler = scheduler
         self.Job = job
         
@@ -81,7 +81,7 @@ class JobThread(PyThread):
         else:
             scheduler.job_ended(job, next_t)
 
-class Scheduler(PyThread):
+class Scheduler(Robot):
     def __init__(self, max_concurrent = 100, stop_when_empty = False, delegate=None, daemon=True, name=None, start=True, **args):
         """
         Args:
@@ -93,7 +93,7 @@ class Scheduler(PyThread):
             start (bool): whether to start the Scheduler immediately on initialization. If False, the Scheduler needs to be started
                 by calling ``start()`` method. Default: True
         """
-        PyThread.__init__(self, daemon=daemon, name=name)
+        Robot.__init__(self, daemon=daemon, name=name)
         self.Timeline = []      # [job, ...]
         self.Delegate = delegate
         self.StopWhenEmpty = stop_when_empty
@@ -249,7 +249,7 @@ class Scheduler(PyThread):
     
     join = wait_until_empty
 
-_GLobalSchedulerLock = Primitive()
+_GLobalSchedulerLock = Core()
 _GlobalScheduler = None
 
 def global_scheduler(name="GlobalScheduler", **args):

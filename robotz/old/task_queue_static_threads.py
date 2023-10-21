@@ -1,12 +1,12 @@
 import time, traceback, sys
-from .core import Primitive, PyThread, synchronized
+from .core import Core, Robot, synchronized
 from .dequeue import DEQueue
 from threading import RLock
 
-class Task(Primitive):
+class Task(Core):
 
     def __init__(self):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self._t_Started = None
         self._t_Ended = None
     
@@ -42,10 +42,10 @@ class FunctionTask(Task):
     def run(self):
         return self.F(*self.Params, **self.Args)
         
-class _Worker(PyThread):
+class _Worker(Robot):
     
     def __init__(self, queue):
-        PyThread.__init__(self)
+        Robot.__init__(self)
         self.Queue = queue
         
     def run(self):
@@ -68,10 +68,10 @@ class _Worker(PyThread):
                     task._t_Ended = time.time()
                 self.Queue.taskEnded(task, exc_type, value, tb)
         
-class TaskQueue(Primitive):
+class TaskQueue(Core):
     
     def __init__(self, nworkers, capacity=None, stagger=None, delegate=None, tasks=[]):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.NWorkers = nworkers
         self.Running = []
         self.Queue = DEQueue(capacity)

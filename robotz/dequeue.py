@@ -1,10 +1,10 @@
-from .core import Primitive, synchronized
+from .core import Core, synchronized
 import time
 
-class DEQueue(Primitive):
+class DEQueue(Core):
 
     def __init__(self, capacity=None):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.Capacity = capacity
         self.List = []
         self.Closed = False

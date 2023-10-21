@@ -1,4 +1,4 @@
-from .core import Primitive, synchronized, PyThread
+from .core import Core, synchronized, Robot
 from .dequeue import DEQueue
 from .task_queue import Task, TaskQueue
 from .promise import Promise
@@ -49,13 +49,13 @@ class _OutputIterator(object):
     def __del__(self):
         self.Processor._remove_output_queue(self.Queue)
         
-class Processor(Primitive):
+class Processor(Core):
     
     Default = ""
 
     def __init__(self, max_workers = None, queue_capacity = None, name=None, output = Default, stagger=None, delegate=None,
             put_timeout=None):
-        Primitive.__init__(self, name=name)
+        Core.__init__(self, name=name)
         self.Output = DEQueue() if output is self.Default else output
         self.WorkerQueue = TaskQueue(max_workers, capacity=queue_capacity, stagger=stagger)
         self.Delegate = delegate
@@ -75,7 +75,7 @@ class Processor(Primitive):
     @synchronized
     def close(self):
         self.Closed = True
-        t = PyThread(target=self.wait_and_close_output)
+        t = Robot(target=self.wait_and_close_output)
         t.start()
     
     def wait_and_close_output(self):

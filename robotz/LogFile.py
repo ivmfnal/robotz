@@ -1,7 +1,7 @@
 import time
 import os
 import datetime
-from .core import PyThread, synchronized, Primitive
+from .core import Robot, synchronized, Core
 from threading import Timer, Thread
 
 def make_timestamp(t=None):
@@ -11,10 +11,10 @@ def make_timestamp(t=None):
         t = datetime.datetime.fromtimestamp(t)
     return t.strftime("%m/%d/%Y %H:%M:%S") + ".%03d" % (t.microsecond//1000)
                 
-class LogStream(Primitive):
+class LogStream(Core):
 
     def __init__(self, stream, add_timestamp=True, name=None):
-        Primitive.__init__(self, name=name)
+        Core.__init__(self, name=name)
         self.Stream = stream            # sys.stdout, sys.stderr
         self.AddTimestamps = add_timestamp
 
@@ -29,11 +29,11 @@ class LogStream(Primitive):
         self.Stream.write(msg);
         self.Stream.flush()
         
-class LogFile(Primitive):
+class LogFile(Core):
     
         def __init__(self, path, interval = '1d', keep = 10, add_timestamp=True, append=True, flush_interval=None, name=None):
             # interval = 'midnight' means roll over at midnight
-            Primitive.__init__(self, name=name)
+            Core.__init__(self, name=name)
             assert isinstance(path, str)
             self.Path = path
             self.File = None
@@ -120,8 +120,8 @@ class LogFile(Primitive):
                 
         def start(self):
             # for compatibility with clients, which think LogFile is a thread
-            if isinstance(self, PyThread):
-                PyThread.start(self)
+            if isinstance(self, Robot):
+                Robot.start(self)
             elif isinstance(self, Thread):
                 Thread.start(self)
             else:

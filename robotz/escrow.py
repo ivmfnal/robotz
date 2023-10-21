@@ -1,13 +1,13 @@
-from .core import Primitive, synchronized
+from .core import Core, synchronized
 
-class Escrow(Primitive):
+class Escrow(Core):
 
     def __init__(self):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.WaitingGet = False
         self.Value = None
-        self.GetLock = Primitive()
-        self.PutLock = Primitive()
+        self.GetLock = Core()
+        self.PutLock = Core()
 
     def get(self, timeout = None):
         with self.GetLock:
@@ -36,10 +36,10 @@ class Escrow(Primitive):
             finally:
                 self.Value = None               # time-out or something else
 
-class EscrowBarrier(Primitive):
+class EscrowBarrier(Core):
     
     def __init__(self, threshold=2, initial_value=None, **args):
-        Primitive.__init__(self, **args)
+        Core.__init__(self, **args)
         self.Value = self.InitialValue = initial_value
         self.Threshold = threshold
         self.NWaiting = 0

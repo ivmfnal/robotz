@@ -52,10 +52,10 @@ class UnlockContext(object):
     def __exit__(self, exc_type, exc_value, traceback):
         self.Prim._Lock.__enter__()    
 
-class Primitive:
+class Core:
     def __init__(self, gate=1, lock=None, name=None):
         """
-        Initiaslizes new Primitive object
+        Initiaslizes new Core object
         
         Args:
             gate (int): initial value for the Gate semapthore. Default = 1
@@ -64,7 +64,7 @@ class Primitive:
         """
         self._Kind = self.__class__.__name__
         self._Lock = lock if lock is not None else RLock()
-        #print ("Primitive:", self, " _Lock:", self._Lock)
+        #print ("Core:", self, " _Lock:", self._Lock)
         self._WakeUp = Condition(self._Lock)
         self._Gate = Semaphore(gate)
         self.Name = name
@@ -83,7 +83,7 @@ class Primitive:
     kind = property(__get_kind, __set_kind)
 
     def getLock(self):
-        """Returns the primitive's lock object. It can be used to create Primitives using the same lock object.
+        """Returns the primitive's lock object. It can be used to create Cores using the same lock object.
         
         Returns:
             Lock or RLock: primitive's lock object
@@ -91,7 +91,7 @@ class Primitive:
         return self._Lock
         
     def __enter__(self):
-        """Primitive's context entry. Using a primitve as a context is equivalent to using its
+        """Core's context entry. Using a primitve as a context is equivalent to using its
         lock as the context. The following are equivalent:
         
             with my_primitive:
@@ -103,13 +103,13 @@ class Primitive:
         return self._Lock.__enter__()
         
     def __exit__(self, exc_type, exc_value, traceback):
-        """Primitive's context exit
+        """Core's context exit
         """
         return self._Lock.__exit__(exc_type, exc_value, traceback)
 
     def can_lock(self):
-        """Returns True if the thread can lock the Primitive's lock immediately, False otherwise.
-        Does not guarantee that a subsequent attempt to lock the Primitive will succeed immediately.
+        """Returns True if the thread can lock the Core's lock immediately, False otherwise.
+        Does not guarantee that a subsequent attempt to lock the Core will succeed immediately.
         """
         if self._Lock.acquire(blocking=False):
             self._Lock.release()
@@ -196,7 +196,7 @@ class Primitive:
             
     @synchronized
     def alarm(self, *params, **args):
-        """Starts a new "alarm" Timer thread associated with the Primitive. A Primitive can have only one alarm thread associated with it.
+        """Starts a new "alarm" Timer thread associated with the Core. A Core can have only one alarm thread associated with it.
         If another alarm thread was already created using a previous call to alarm(), the old thread will be cancelled and
         deleted.
         
@@ -210,34 +210,34 @@ class Primitive:
     @synchronized
     def cancel_alarm(self):
         """
-        Cancels the alarm thread associated with the Primitive, if any. 
+        Cancels the alarm thread associated with the Core, if any. 
         """
         
         if self.Timer is not None:
             self.Timer.cancel()
             self.Timer = None
 
-class PyThread(Thread, Primitive):
+class Robot(Thread, Core):
     def __init__(self, *params, name=None, **args):
-        """Initializes a new PyThread object. PyThread is a subclass of both threading.Thread and Primitive, so it combines features of both.
+        """Initializes a new Robot object. Robot is a subclass of both threading.Thread and Core, so it combines features of both.
         
         Args:
-            name (string):  Name for the Primitive
+            name (string):  Name for the Core
             params: positional arguments for threading.Thread constructor
             args: keyword arguments for threading.Thread constructor
         """
         Thread.__init__(self, *params, **args)
-        Primitive.__init__(self, name=name)
+        Core.__init__(self, name=name)
         self.Stop = False
         
     def stop(self):
         self.Stop = True
 
-class Timer(PyThread):
+class Timer(Robot):
     
     def __init__(self, fcn, *params, t=None, interval=None, start=True, name=None, daemon=True, onexception=None, **args):
-        """Initializes new Timer thread. pythreader's Timer is similar in functionality with threading.Timer, but it has additional
-        functionality. In particular pythreader's Timer can run as a periodic timer, firing at specified frequency until it is cancelled.
+        """Initializes new Timer thread. robotz's Timer is similar in functionality with threading.Timer, but it has additional
+        functionality. In particular robotz's Timer can run as a periodic timer, firing at specified frequency until it is cancelled.
         
         Args:
             fcn (function): function to call every time the Timer fires
@@ -253,7 +253,7 @@ class Timer(PyThread):
                 exception type, exception value and the traceback, similar to what sys.exc_info() returns. Default: ignore any exceptions raised by ``fcn``
         """
         
-        PyThread.__init__(self, name=name, daemon=daemon)
+        Robot.__init__(self, name=name, daemon=daemon)
         if t is None:
             self.T = time.time() + interval
         else:

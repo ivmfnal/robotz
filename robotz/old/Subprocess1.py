@@ -1,5 +1,5 @@
 
-from .core import synchronized, Primitive
+from .core import synchronized, Core
 
 try:
     import subprocess, fcntl, select, os, time
@@ -7,11 +7,11 @@ try:
     
     if __subprocessing_enabled__:
 
-        class Subprocess(subprocess.Popen, Primitive):
+        class Subprocess(subprocess.Popen, Core):
     
             def __init__(self, *params, **args):
                 subprocess.Popen.__init__(self, *params, **args)
-                Primitive.__init__(self)
+                Core.__init__(self)
         
             @synchronized
             def waitCompletion(self, timeout = None, input = None):

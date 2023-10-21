@@ -1,11 +1,11 @@
-from .core import Primitive, synchronized
+from .core import Core, synchronized
 from threading import current_thread
 import threading
 
 def _thread_id():
     return current_thread().ident
 
-class RWLock(Primitive):
+class RWLock(Core):
     
     def __init__(self):
         
@@ -23,7 +23,7 @@ class RWLock(Primitive):
         the lock still remains locked by the thread in shared mode until explicitly released.
         """
         
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.Exclusive = None
         self.ExclusiveCount = 0
         self.ExclusiveQueue = []

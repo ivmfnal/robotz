@@ -1,7 +1,7 @@
 from .task_queue import TaskQueue, Task
-from .core import Primitive, synchronized
+from .core import Core, synchronized
 
-class Gang(Primitive):
+class Gang(Core):
 
     def __init__(self, callable, params=None, n=1, concurrency=None, stagger=None, delegate=None):
         self.Queue = TaskQueue(concurrency, stagger=stagger, delegate=delegate or self)

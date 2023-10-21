@@ -1,4 +1,4 @@
-from .core import Primitive, synchronized, PyThread, gated, Timeout, Timer
+from .core import Core, synchronized, Robot, gated, Timeout, Timer
 from .dequeue import DEQueue
 from .task_queue import TaskQueue, Task, schedule_task
 from .Scheduler import Scheduler
@@ -18,8 +18,8 @@ __version__ = Version
 version_info = (tuple(int(x) for x in Version.split(".")) + (0,0,0))[:3]            # pad with 0s
 
 __a_ll__ = [
-    'Primitive',
-    'PyThread',
+    'Core',
+    'Robot',
     'TimerThread',
     'DEQueue',
     'gated',

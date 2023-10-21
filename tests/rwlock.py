@@ -1,5 +1,5 @@
 import threading
-from pythreader import RWLock
+from robotz import RWLock
 
 if __name__ == '__main__':
     import random, time

@@ -1,4 +1,4 @@
-from .core import PyThread
+from .core import Robot
 from .promise import Promise
 import sys, os, subprocess
 from subprocess import Popen
@@ -13,10 +13,10 @@ def to_bytes(b):
         b = b.encode("utf-8")
     return b
 
-class ShellCommand(PyThread):
+class ShellCommand(Robot):
 
     def __init__(self, command, promise_data=None, cwd=None, env=None, input=None, daemon=None, timeout=None, name=None):
-        PyThread.__init__(self, daemon=daemon, name=name)
+        Robot.__init__(self, daemon=daemon, name=name)
         self.Command = command
         self.CWD = cwd
         self.Env = env

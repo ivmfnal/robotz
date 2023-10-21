@@ -1,9 +1,9 @@
-from .core import Primitive, synchronized, Timeout
+from .core import Core, synchronized, Timeout
 
-class Promise(Primitive):
+class Promise(Core):
     
     def __init__(self):
-        Primitive.__init__(self, callback = None, callback_param = None)
+        Core.__init__(self, callback = None, callback_param = None)
         self.Done = False
         self.Payload = None
         self.Callback = callback

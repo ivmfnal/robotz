@@ -1,10 +1,10 @@
-from pythreader import Primitive, synchronized, schedule_task
+from robotz import Core, synchronized, schedule_task
 import os
 
-class FSWatchdog(Primitive):
+class FSWatchdog(Core):
 
     def __init__(self, interval=10, name=None):
-        Primitive.__init__(self, name=name)
+        Core.__init__(self, name=name)
         self.Watches = {}           # path -> (mtime, callback, param)
         schedule_task(self.run, interval=interval)
 

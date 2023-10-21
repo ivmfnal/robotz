@@ -1,4 +1,4 @@
-from pythreader import Processor
+from robotz import Processor
 import random, time
 
 class P1(Processor):

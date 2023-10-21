@@ -1,4 +1,4 @@
-from .core import Primitive, synchronized, Timeout
+from .core import Core, synchronized, Timeout
 from threading import get_ident, RLock
 
 class DebugLock(object):
@@ -22,21 +22,21 @@ class DebugLock(object):
         return self.release()
     
 
-class Promise(Primitive):
+class Promise(Core):
     
     def __init__(self, data=None, callbacks = [], name=None):
         """
         Creates new Promise object.
         
         Args:
-            data: Arbitrary user-defined data to be associated with the promise. Can be anything. pythreader does not use it.
+            data: Arbitrary user-defined data to be associated with the promise. Can be anything. robotz does not use it.
             callbacks (list): List of Promise callbacks objects. Each object may have ``oncomplete`` and/or ``onexception`` methods defined. See Notes below.
             name (string): Name for the new Promise object, optional.
         
         Notes:
             
         """
-        Primitive.__init__(self, name=name)    #, lock=DebugLock())
+        Core.__init__(self, name=name)    #, lock=DebugLock())
         self.Data = data
         self.Callbacks = callbacks[:]
         self.Complete = False
@@ -295,10 +295,10 @@ class Promise(Primitive):
             promises = args
         return ORPromise(promises)
     
-class ORPromise(Primitive):
+class ORPromise(Core):
     
     def __init__(self, promises):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.Fulfilled = None
         for p in promises:
             p.addCallback(self)
@@ -315,10 +315,10 @@ class ORPromise(Primitive):
             self.sleep(timeout)
         return self.Fulfilled.Result
 
-class ANDPromise(Primitive):
+class ANDPromise(Core):
     
     def __init__(self, promises):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.Promises = promises
         
     def wait(self, timeout=None):

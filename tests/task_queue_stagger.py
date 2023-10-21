@@ -1,6 +1,6 @@
 import time
-from pythreader import Task, TaskQueue
-from pythreader.core import printWaiting
+from robotz import Task, TaskQueue
+from robotz.core import printWaiting
 from threading import Timer
 
 import random

@@ -1,10 +1,10 @@
-from .core import PyThread
+from .core import Robot
 from .dequeue import DEQueue
 
-class Producer(PyThread):
+class Producer(Robot):
     
     def __init__(self, capacity=None, name=None):
-        PyThread.__init__(self, name=name)
+        Robot.__init__(self, name=name)
         self.OutQueue = DEQueue(capacity=capacity)
     
     def __iter__(self):

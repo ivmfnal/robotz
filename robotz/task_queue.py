@@ -1,6 +1,6 @@
 import time, traceback, sys
 from datetime import datetime, timedelta
-from .core import Primitive, PyThread, synchronized
+from .core import Core, Robot, synchronized
 from .dequeue import DEQueue
 from .promise import Promise
 from threading import Timer
@@ -36,13 +36,13 @@ def _time_interval(interval):
         interval = interval.totalseconds()
     return interval
         
-class Task(Primitive):
+class Task(Core):
 
     class _TaskPrivate(object):
         pass
 
     def __init__(self, name=None):
-        Primitive.__init__(self, name=name)
+        Core.__init__(self, name=name)
         self.Created = time.time()
         self.Queued = None
         self.Started = None
@@ -190,11 +190,11 @@ class FunctionTask(Task):
         #self.F = self.Params = self.Args = None
         return result
         
-class TaskQueue(Primitive):
+class TaskQueue(Core):
     
-    class ExecutorThread(PyThread):
+    class ExecutorThread(Robot):
         def __init__(self, queue, task):
-            PyThread.__init__(self, daemon=True)
+            Robot.__init__(self, daemon=True)
             self.Queue = queue
             self.Task = task
             task._Private.Running = True
@@ -248,7 +248,7 @@ class TaskQueue(Primitive):
             name (string): primitive name
             daemon (boolean): Threading daemon flag for the queue internal thread. Default = True
         """
-        Primitive.__init__(self, name=name)
+        Core.__init__(self, name=name)
         self.NWorkers = nworkers
         self.Queue = DEQueue(capacity)
         self.Held = False

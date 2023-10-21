@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# pythreader documentation build configuration file, created by
+# robotz documentation build configuration file, created by
 # sphinx-quickstart on Sat Aug  4 19:41:02 2018.
 #
 # This file is execfile()d with the current directory set to its
@@ -46,7 +46,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'pythreader'
+project = u'robotz'
 copyright = u'2018, Igor Mandrichenko'
 author = u'Igor Mandrichenko'
 
@@ -210,7 +210,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pythreaderdoc'
+htmlhelp_basename = 'robotzdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -232,7 +232,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'pythreader.tex', u'pythreader Documentation',
+  (master_doc, 'robotz.tex', u'robotz Documentation',
    u'Igor Mandrichenko', 'manual'),
 ]
 
@@ -262,7 +262,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'pythreader', u'pythreader Documentation',
+    (master_doc, 'robotz', u'robotz Documentation',
      [author], 1)
 ]
 
@@ -276,8 +276,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, 'pythreader', u'pythreader Documentation',
-   author, 'pythreader', 'One line description of project.',
+  (master_doc, 'robotz', u'robotz Documentation',
+   author, 'robotz', 'One line description of project.',
    'Miscellaneous'),
 ]
 

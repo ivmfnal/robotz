@@ -1,4 +1,4 @@
-from pythreader import Task, TaskQueue
+from robotz import Task, TaskQueue
 import sys, traceback
 
 class TaskOK(Task):

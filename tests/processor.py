@@ -1,5 +1,5 @@
 import random, time, uuid
-from pythreader import Processor, PyThread
+from robotz import Processor, PyThread
 
 
 class MyProcessor(Processor):

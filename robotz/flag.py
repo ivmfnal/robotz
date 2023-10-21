@@ -1,9 +1,9 @@
-from .core import Primitive
+from .core import Core
 
-class Flag(Primitive):
+class Flag(Core):
 
     def __init__(self, value=False):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self._Value = value
 
     def set(self, value=True):

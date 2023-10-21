@@ -1,10 +1,10 @@
-from .core import PyThread, synchronized
+from .core import Robot, synchronized
 import time, uuid, traceback
 import sys
 
-class Scheduler(PyThread):
+class Scheduler(Robot):
     def __init__(self):
-        PyThread.__init__(self)
+        Robot.__init__(self)
         self.Tasks = {}     # id -> (function, t, interval, param, args)
 
     @synchronized        

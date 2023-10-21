@@ -1,10 +1,10 @@
-from .core import Primitive, synchronized
+from .core import Core, synchronized
 from .promise import Promise
 
-class Barrier(Primitive):
+class Barrier(Core):
 
     def __init__(self, height):
-        Primitive.__init__(self)
+        Core.__init__(self)
         self.Queue = []
         self.Height = height
         

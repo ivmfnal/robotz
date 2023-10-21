@@ -1,9 +1,9 @@
-BUILD_DIR = $(HOME)/build/pythreader
+BUILD_DIR = $(HOME)/build/robotz
 TAR_DIR = /tmp/$(USER)
-TAR_FILE = $(TAR_DIR)/pythreader_$(VERSION).tar
+TAR_FILE = $(TAR_DIR)/robotz_$(VERSION).tar
 
 all:
-	make VERSION=`python pythreader/Version.py` all_with_version_defined
+	make VERSION=`python robotz/Version.py` all_with_version_defined
 	
 clean:
 	rm -rf $(BUILD_DIR) $(TAR_FILE)
@@ -12,7 +12,7 @@ all_with_version_defined:	tarball
 	
     
 build: $(BUILD_DIR)
-	cd pythreader; make BUILD_DIR=$(BUILD_DIR) build
+	cd robotz; make BUILD_DIR=$(BUILD_DIR) build
 	cd tests; make BUILD_DIR=$(BUILD_DIR) build
 	cd tools; make BUILD_DIR=$(BUILD_DIR) build
     

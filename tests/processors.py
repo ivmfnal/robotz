@@ -1,4 +1,4 @@
-from pythreader import Processor, Flag
+from robotz import Processor, Flag
 import random
 from threading import Condition
 
